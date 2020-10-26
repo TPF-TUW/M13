@@ -3,15 +3,17 @@ using System.Text;
 using System.Windows.Forms;
 using DevExpress.LookAndFeel;
 using DevExpress.Utils.Extensions;
-//using DBConnection;
+using DBConnection;
 using MDS00;
 using System.Drawing;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraGrid.Views.Grid;
 
 namespace M13
 {
     public partial class XtraForm1 : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        //private Functionality.Function FUNC = new Functionality.Function();
+        private Functionality.Function FUNC = new Functionality.Function();
         public XtraForm1()
         {
             InitializeComponent();
@@ -38,26 +40,24 @@ namespace M13
 
         private void LoadData()
         {
-            //StringBuilder sbSQL = new StringBuilder();
-            //sbSQL.Append("SELECT OIDGParts AS No, GarmentParts, CreatedBy, CreatedDate ");
-            //sbSQL.Append("FROM GarmentParts ");
-            //sbSQL.Append("ORDER BY OIDGParts, GarmentParts ");
-            //new ObjDevEx.setGridControl(gcGarment, gvGarment, sbSQL).getData(false, false, true, true);
+            StringBuilder sbSQL = new StringBuilder();
+            sbSQL.Append("SELECT OIDUNIT AS No, UnitName, CreatedBy, CreatedDate ");
+            sbSQL.Append("FROM Unit ");
+            sbSQL.Append("ORDER BY OIDUNIT ");
+            new ObjDevEx.setGridControl(gcUnit, gvUnit, sbSQL).getData(false, false, false, true);
 
         }
 
         private void NewData()
         {
-            //txeGarment.Text = "";
-            //lblStatus.Text = "* Add Garment";
-            //lblStatus.ForeColor = Color.Green;
+            txeUnit.Text = "";
+            lblStatus.Text = "* Add Unit";
+            lblStatus.ForeColor = Color.Green;
 
-            //txeID.Text = new DBQuery("SELECT CASE WHEN ISNULL(MAX(OIDGParts), '') = '' THEN 1 ELSE MAX(OIDGParts) + 1 END AS NewNo FROM GarmentParts").getString();
+            txeID.Text = new DBQuery("SELECT CASE WHEN ISNULL(MAX(OIDUNIT), '') = '' THEN 1 ELSE MAX(OIDUNIT) + 1 END AS NewNo FROM Unit").getString();
 
-            //txeCREATE.Text = "0";
-            //txeDATE.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-
-            ////txeID.Focus();
+            txeCREATE.Text = "0";
+            txeDATE.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
         }
 
         private void bbiNew_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -68,120 +68,153 @@ namespace M13
 
         private void gvGarment_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
         {
-            //lblStatus.Text = "* Edit Garment";
-            //lblStatus.ForeColor = Color.Red;
+            lblStatus.Text = "* Edit Unit";
+            lblStatus.ForeColor = Color.Red;
 
-            //txeID.Text = gvGarment.GetFocusedRowCellValue("No").ToString();
-            //txeGarment.Text = gvGarment.GetFocusedRowCellValue("GarmentParts").ToString();
+            txeID.Text = gvUnit.GetFocusedRowCellValue("No").ToString();
+            txeUnit.Text = gvUnit.GetFocusedRowCellValue("UnitName").ToString();
 
-            //txeCREATE.Text = gvGarment.GetFocusedRowCellValue("CreatedBy").ToString();
-            //txeDATE.Text = gvGarment.GetFocusedRowCellValue("CreatedDate").ToString();
+            txeCREATE.Text = gvUnit.GetFocusedRowCellValue("CreatedBy").ToString();
+            txeDATE.Text = gvUnit.GetFocusedRowCellValue("CreatedDate").ToString();
         }
 
-        //private bool chkDuplicate()
-        //{
-        //    bool chkDup = true;
-        //    if (txeGarment.Text != "")
-        //    {
-        //        txeGarment.Text = txeGarment.Text.Trim();
-        //        if (txeGarment.Text.Trim() != "" && lblStatus.Text == "* Add Garment")
-        //        {
-        //            StringBuilder sbSQL = new StringBuilder();
-        //            sbSQL.Append("SELECT TOP(1) GarmentParts FROM GarmentParts WHERE (GarmentParts = N'" + txeGarment.Text.Trim() + "') ");
-        //            if (new DBQuery(sbSQL).getString() != "")
-        //            {
-        //                FUNC.msgWarning("Duplicate garment parts. !! Please Change.");
-        //                txeGarment.Text = "";
-        //                chkDup = false;
-        //            }
-        //        }
-        //        else if (txeGarment.Text.Trim() != "" && lblStatus.Text == "* Edit Garment")
-        //        {
-        //            StringBuilder sbSQL = new StringBuilder();
-        //            sbSQL.Append("SELECT TOP(1) OIDGParts ");
-        //            sbSQL.Append("FROM GarmentParts ");
-        //            sbSQL.Append("WHERE (GarmentParts = N'" + txeGarment.Text.Trim() + "') ");
-        //            string strCHK = new DBQuery(sbSQL).getString();
-        //            if (strCHK != "" && strCHK != txeID.Text.Trim())
-        //            {
-        //                FUNC.msgWarning("Duplicate garment parts. !! Please Change.");
-        //                txeGarment.Text = "";
-        //                chkDup = false;
-        //            }
-        //        }
-        //    }
-        //    return chkDup;
-        //}
+        private bool chkDuplicate()
+        {
+            bool chkDup = true;
+            if (txeUnit.Text != "")
+            {
+                txeUnit.Text = txeUnit.Text.Trim();
+                if (txeUnit.Text.Trim() != "" && lblStatus.Text == "* Add Unit")
+                {
+                    StringBuilder sbSQL = new StringBuilder();
+                    sbSQL.Append("SELECT TOP(1) UnitName FROM Unit WHERE (UnitName = N'" + txeUnit.Text.Trim().Replace("'", "''") + "') ");
+                    if (new DBQuery(sbSQL).getString() != "")
+                    {
+                        FUNC.msgWarning("Duplicate unit. !! Please Change.");
+                        txeUnit.Text = "";
+                        chkDup = false;
+                    }
+                }
+                else if (txeUnit.Text.Trim() != "" && lblStatus.Text == "* Edit Unit")
+                {
+                    StringBuilder sbSQL = new StringBuilder();
+                    sbSQL.Append("SELECT TOP(1) OIDUNIT ");
+                    sbSQL.Append("FROM Unit ");
+                    sbSQL.Append("WHERE (UnitName = N'" + txeUnit.Text.Trim().Replace("'", "''") + "') ");
+                    string strCHK = new DBQuery(sbSQL).getString();
+                    if (strCHK != "" && strCHK != txeID.Text.Trim())
+                    {
+                        FUNC.msgWarning("Duplicate unit. !! Please Change.");
+                        txeUnit.Text = "";
+                        chkDup = false;
+                    }
+                }
+            }
+            return chkDup;
+        }
 
-        //private void txeGarment_Leave(object sender, EventArgs e)
-        //{
-        //    bool chkDup = chkDuplicate();
-        //    if (chkDup == false)
-        //    {
-        //        txeGarment.Text = "";
-        //        txeGarment.Focus();
-        //    }
-        //}
+        private void txeUnit_LostFocus(object sender, EventArgs e)
+        {
+            bool chkDup = chkDuplicate();
+            if (chkDup == false)
+            {
+                txeUnit.Text = "";
+                txeUnit.Focus();
+            }
+        }
 
-        //private void bbiSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        //{
-        //    if (txeGarment.Text.Trim() == "")
-        //    {
-        //        FUNC.msgWarning("Please input garment parts.");
-        //        txeGarment.Focus();
-        //    }
-        //    else
-        //    {
-        //        txeGarment.Text = txeGarment.Text.Trim();
-        //        bool chkGMP = chkDuplicate();
+        private void txeUnit_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txeID.Focus();
+            }
+        }
 
-        //        if (chkGMP == true)
-        //        {
-        //            if (FUNC.msgQuiz("Confirm save data ?") == true)
-        //            {
-        //                StringBuilder sbSQL = new StringBuilder();
-        //                string strCREATE = "0";
-        //                if (txeCREATE.Text.Trim() != "")
-        //                {
-        //                    strCREATE = txeCREATE.Text.Trim();
-        //                }
+        private void gvUnit_RowStyle(object sender, RowStyleEventArgs e)
+        {
+            if (sender is GridView)
+            {
+                GridView gView = (GridView)sender;
+                if (!gView.IsValidRowHandle(e.RowHandle)) return;
+                int parent = gView.GetParentRowHandle(e.RowHandle);
+                if (gView.IsGroupRow(parent))
+                {
+                    for (int i = 0; i < gView.GetChildRowCount(parent); i++)
+                    {
+                        if (gView.GetChildRowHandle(parent, i) == e.RowHandle)
+                        {
+                            e.Appearance.BackColor = i % 2 == 0 ? Color.AliceBlue : Color.White;
+                        }
+                    }
+                }
+                else
+                {
+                    e.Appearance.BackColor = e.RowHandle % 2 == 0 ? Color.AliceBlue : Color.White;
+                }
+            }
+        }
 
-        //                sbSQL.Append("IF NOT EXISTS(SELECT OIDGParts FROM GarmentParts WHERE OIDGParts = N'" + txeID.Text.Trim() + "') ");
-        //                sbSQL.Append(" BEGIN ");
-        //                sbSQL.Append("  INSERT INTO GarmentParts(GarmentParts, CreatedBy, CreatedDate) ");
-        //                sbSQL.Append("  VALUES(N'" + txeGarment.Text.Trim() + "', '" + strCREATE + "', GETDATE()) ");
-        //                sbSQL.Append(" END ");
-        //                sbSQL.Append("ELSE ");
-        //                sbSQL.Append(" BEGIN ");
-        //                sbSQL.Append("  UPDATE GarmentParts SET ");
-        //                sbSQL.Append("      GarmentParts = N'" + txeGarment.Text.Trim() + "' ");
-        //                sbSQL.Append("  WHERE(OIDGParts = '" + txeID.Text.Trim() + "') ");
-        //                sbSQL.Append(" END ");
-        //                //MessageBox.Show(sbSQL.ToString());
-        //                if (sbSQL.Length > 0)
-        //                {
-        //                    try
-        //                    {
-        //                        bool chkSAVE = new DBQuery(sbSQL).runSQL();
-        //                        if (chkSAVE == true)
-        //                        {
-        //                            FUNC.msgInfo("Save complete.");
-        //                            bbiNew.PerformClick();
-        //                        }
-        //                    }
-        //                    catch (Exception)
-        //                    { }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+        private void bbiExcel_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            string pathFile = new ObjSet.Folder(@"C:\MDS\Export\").GetPath() + "UnitList_" + DateTime.Now.ToString("yyyyMMdd") + ".xlsx";
+            gvUnit.ExportToXlsx(pathFile);
+            System.Diagnostics.Process.Start(pathFile);
+        }
 
-        //private void bbiExcel_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        //{
-        //    string pathFile = new ObjSet.Folder(@"C:\MDS\Export\").GetPath() + "GarmentPartsList_" + DateTime.Now.ToString("yyyyMMdd") + ".xlsx";
-        //    gvGarment.ExportToXlsx(pathFile);
-        //    System.Diagnostics.Process.Start(pathFile);
-        //}
+        private void bbiSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (txeUnit.Text.Trim() == "")
+            {
+                FUNC.msgWarning("Please input unit name.");
+                txeUnit.Focus();
+            }
+            else
+            {
+                txeUnit.Text = txeUnit.Text.Trim();
+                bool chkUNIT = chkDuplicate();
+
+                if (chkUNIT == true)
+                {
+                    if (FUNC.msgQuiz("Confirm save data ?") == true)
+                    {
+                        StringBuilder sbSQL = new StringBuilder();
+                        string strCREATE = "0";
+                        if (txeCREATE.Text.Trim() != "")
+                        {
+                            strCREATE = txeCREATE.Text.Trim();
+                        }
+
+                        sbSQL.Append("IF NOT EXISTS(SELECT OIDUNIT FROM Unit WHERE OIDUNIT = N'" + txeID.Text.Trim() + "') ");
+                        sbSQL.Append(" BEGIN ");
+                        sbSQL.Append("  INSERT INTO Unit(UnitName, CreatedBy, CreatedDate) ");
+                        sbSQL.Append("  VALUES(N'" + txeUnit.Text.Trim().Replace("'", "''") + "', '" + strCREATE + "', GETDATE()) ");
+                        sbSQL.Append(" END ");
+                        sbSQL.Append("ELSE ");
+                        sbSQL.Append(" BEGIN ");
+                        sbSQL.Append("  UPDATE Unit SET ");
+                        sbSQL.Append("      UnitName = N'" + txeUnit.Text.Trim().Replace("'", "''") + "' ");
+                        sbSQL.Append("  WHERE(OIDUNIT = '" + txeID.Text.Trim() + "') ");
+                        sbSQL.Append(" END ");
+                        //MessageBox.Show(sbSQL.ToString());
+                        if (sbSQL.Length > 0)
+                        {
+                            try
+                            {
+                                bool chkSAVE = new DBQuery(sbSQL).runSQL();
+                                if (chkSAVE == true)
+                                {
+                                    bbiNew.PerformClick();
+                                    FUNC.msgInfo("Save complete.");
+                                }
+                            }
+                            catch (Exception)
+                            { }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }
