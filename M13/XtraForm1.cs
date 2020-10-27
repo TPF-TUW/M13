@@ -185,17 +185,29 @@ namespace M13
                             strCREATE = txeCREATE.Text.Trim();
                         }
 
-                        sbSQL.Append("IF NOT EXISTS(SELECT OIDUNIT FROM Unit WHERE OIDUNIT = N'" + txeID.Text.Trim() + "') ");
-                        sbSQL.Append(" BEGIN ");
-                        sbSQL.Append("  INSERT INTO Unit(UnitName, CreatedBy, CreatedDate) ");
-                        sbSQL.Append("  VALUES(N'" + txeUnit.Text.Trim().Replace("'", "''") + "', '" + strCREATE + "', GETDATE()) ");
-                        sbSQL.Append(" END ");
-                        sbSQL.Append("ELSE ");
-                        sbSQL.Append(" BEGIN ");
-                        sbSQL.Append("  UPDATE Unit SET ");
-                        sbSQL.Append("      UnitName = N'" + txeUnit.Text.Trim().Replace("'", "''") + "' ");
-                        sbSQL.Append("  WHERE(OIDUNIT = '" + txeID.Text.Trim() + "') ");
-                        sbSQL.Append(" END ");
+                        if (lblStatus.Text == "* Add Unit")
+                        {
+                            sbSQL.Append("  INSERT INTO Unit(UnitName, CreatedBy, CreatedDate) ");
+                            sbSQL.Append("  VALUES(N'" + txeUnit.Text.Trim().Replace("'", "''") + "', '" + strCREATE + "', GETDATE()) ");
+                        }
+                        else if (lblStatus.Text == "* Edit Unit")
+                        {
+                            sbSQL.Append("  UPDATE Unit SET ");
+                            sbSQL.Append("      UnitName = N'" + txeUnit.Text.Trim().Replace("'", "''") + "' ");
+                            sbSQL.Append("  WHERE(OIDUNIT = '" + txeID.Text.Trim() + "') ");
+                        }
+
+                        //sbSQL.Append("IF NOT EXISTS(SELECT OIDUNIT FROM Unit WHERE OIDUNIT = N'" + txeID.Text.Trim() + "') ");
+                        //sbSQL.Append(" BEGIN ");
+                        //sbSQL.Append("  INSERT INTO Unit(UnitName, CreatedBy, CreatedDate) ");
+                        //sbSQL.Append("  VALUES(N'" + txeUnit.Text.Trim().Replace("'", "''") + "', '" + strCREATE + "', GETDATE()) ");
+                        //sbSQL.Append(" END ");
+                        //sbSQL.Append("ELSE ");
+                        //sbSQL.Append(" BEGIN ");
+                        //sbSQL.Append("  UPDATE Unit SET ");
+                        //sbSQL.Append("      UnitName = N'" + txeUnit.Text.Trim().Replace("'", "''") + "' ");
+                        //sbSQL.Append("  WHERE(OIDUNIT = '" + txeID.Text.Trim() + "') ");
+                        //sbSQL.Append(" END ");
                         //MessageBox.Show(sbSQL.ToString());
                         if (sbSQL.Length > 0)
                         {
