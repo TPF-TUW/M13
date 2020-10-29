@@ -376,6 +376,8 @@
             this.gvUnit.Name = "gvUnit";
             this.gvUnit.OptionsBehavior.Editable = false;
             this.gvUnit.OptionsBehavior.ReadOnly = true;
+            this.gvUnit.OptionsView.EnableAppearanceEvenRow = true;
+            this.gvUnit.OptionsView.EnableAppearanceOddRow = true;
             this.gvUnit.OptionsView.ShowGroupPanel = false;
             this.gvUnit.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gvGarment_RowCellClick);
             this.gvUnit.RowStyle += new DevExpress.XtraGrid.Views.Grid.RowStyleEventHandler(this.gvUnit_RowStyle);
