@@ -68,14 +68,7 @@ namespace M13
 
         private void gvGarment_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
         {
-            lblStatus.Text = "* Edit Unit";
-            lblStatus.ForeColor = Color.Red;
-
-            txeID.Text = gvUnit.GetFocusedRowCellValue("No").ToString();
-            txeUnit.Text = gvUnit.GetFocusedRowCellValue("UnitName").ToString();
-
-            txeCREATE.Text = gvUnit.GetFocusedRowCellValue("CreatedBy").ToString();
-            txeDATE.Text = gvUnit.GetFocusedRowCellValue("CreatedDate").ToString();
+            
         }
 
         private bool chkDuplicate()
@@ -209,5 +202,16 @@ namespace M13
             }
         }
 
+        private void gvUnit_RowClick(object sender, RowClickEventArgs e)
+        {
+            lblStatus.Text = "* Edit Unit";
+            lblStatus.ForeColor = Color.Red;
+
+            txeID.Text = gvUnit.GetFocusedRowCellValue("No").ToString();
+            txeUnit.Text = gvUnit.GetFocusedRowCellValue("UnitName").ToString();
+
+            txeCREATE.Text = gvUnit.GetFocusedRowCellValue("CreatedBy").ToString();
+            txeDATE.Text = gvUnit.GetFocusedRowCellValue("CreatedDate").ToString();
+        }
     }
 }
