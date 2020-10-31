@@ -131,6 +131,7 @@
             this.bbiPrintPreview.Id = 14;
             this.bbiPrintPreview.ImageOptions.ImageUri.Uri = "Preview";
             this.bbiPrintPreview.Name = "bbiPrintPreview";
+            this.bbiPrintPreview.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbiPrintPreview_ItemClick);
             // 
             // bsiRecordsCount
             // 
@@ -177,6 +178,7 @@
             this.bbiPrint.Id = 20;
             this.bbiPrint.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("bbiPrint.ImageOptions.SvgImage")));
             this.bbiPrint.Name = "bbiPrint";
+            this.bbiPrint.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbiPrint_ItemClick);
             // 
             // bbiSave
             // 
@@ -307,11 +309,11 @@
             // txeUnit
             // 
             this.txeUnit.EditValue = "";
-            this.txeUnit.Location = new System.Drawing.Point(80, 28);
+            this.txeUnit.Location = new System.Drawing.Point(89, 28);
             this.txeUnit.MenuManager = this.ribbonControl;
             this.txeUnit.Name = "txeUnit";
             this.txeUnit.Properties.MaxLength = 50;
-            this.txeUnit.Size = new System.Drawing.Size(211, 20);
+            this.txeUnit.Size = new System.Drawing.Size(202, 20);
             this.txeUnit.StyleController = this.layoutControl1;
             this.txeUnit.TabIndex = 12;
             this.txeUnit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txeUnit_KeyDown);
@@ -321,7 +323,7 @@
             // 
             this.lblStatus.Appearance.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblStatus.Appearance.Options.UseFont = true;
-            this.lblStatus.Location = new System.Drawing.Point(134, 4);
+            this.lblStatus.Location = new System.Drawing.Point(143, 4);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(63, 13);
             this.lblStatus.StyleController = this.layoutControl1;
@@ -330,27 +332,27 @@
             // 
             // txeDATE
             // 
-            this.txeDATE.Location = new System.Drawing.Point(80, 378);
+            this.txeDATE.Location = new System.Drawing.Point(89, 378);
             this.txeDATE.MenuManager = this.ribbonControl;
             this.txeDATE.Name = "txeDATE";
             this.txeDATE.Properties.ReadOnly = true;
-            this.txeDATE.Size = new System.Drawing.Size(211, 20);
+            this.txeDATE.Size = new System.Drawing.Size(202, 20);
             this.txeDATE.StyleController = this.layoutControl1;
             this.txeDATE.TabIndex = 9;
             // 
             // txeCREATE
             // 
-            this.txeCREATE.Location = new System.Drawing.Point(80, 354);
+            this.txeCREATE.Location = new System.Drawing.Point(89, 354);
             this.txeCREATE.MenuManager = this.ribbonControl;
             this.txeCREATE.Name = "txeCREATE";
             this.txeCREATE.Properties.ReadOnly = true;
-            this.txeCREATE.Size = new System.Drawing.Size(211, 20);
+            this.txeCREATE.Size = new System.Drawing.Size(202, 20);
             this.txeCREATE.StyleController = this.layoutControl1;
             this.txeCREATE.TabIndex = 8;
             // 
             // txeID
             // 
-            this.txeID.Location = new System.Drawing.Point(80, 4);
+            this.txeID.Location = new System.Drawing.Point(89, 4);
             this.txeID.MenuManager = this.ribbonControl;
             this.txeID.Name = "txeID";
             this.txeID.Properties.ReadOnly = true;
@@ -425,7 +427,7 @@
             this.layoutControlItem2.Control = this.txeID;
             this.layoutControlItem2.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(130, 24);
+            this.layoutControlItem2.Size = new System.Drawing.Size(139, 24);
             this.layoutControlItem2.Text = "OID Unit";
             this.layoutControlItem2.TextSize = new System.Drawing.Size(73, 14);
             // 
@@ -440,9 +442,9 @@
             // emptySpaceItem2
             // 
             this.emptySpaceItem2.AllowHotTrack = false;
-            this.emptySpaceItem2.Location = new System.Drawing.Point(197, 0);
+            this.emptySpaceItem2.Location = new System.Drawing.Point(206, 0);
             this.emptySpaceItem2.Name = "emptySpaceItem2";
-            this.emptySpaceItem2.Size = new System.Drawing.Size(94, 24);
+            this.emptySpaceItem2.Size = new System.Drawing.Size(85, 24);
             this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
             // 
             // layoutControlItem6
@@ -466,7 +468,7 @@
             // layoutControlItem4
             // 
             this.layoutControlItem4.Control = this.lblStatus;
-            this.layoutControlItem4.Location = new System.Drawing.Point(130, 0);
+            this.layoutControlItem4.Location = new System.Drawing.Point(139, 0);
             this.layoutControlItem4.Name = "layoutControlItem4";
             this.layoutControlItem4.Size = new System.Drawing.Size(67, 24);
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);

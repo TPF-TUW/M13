@@ -213,5 +213,15 @@ namespace M13
             txeCREATE.Text = gvUnit.GetFocusedRowCellValue("CreatedBy").ToString();
             txeDATE.Text = gvUnit.GetFocusedRowCellValue("CreatedDate").ToString();
         }
+
+        private void bbiPrintPreview_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            gcUnit.ShowPrintPreview();
+        }
+
+        private void bbiPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            gcUnit.Print();
+        }
     }
 }
