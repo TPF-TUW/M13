@@ -195,6 +195,7 @@ namespace M13
 
         private void gvUnit_RowClick(object sender, RowClickEventArgs e)
         {
+            if (gvUnit.IsFilterRow(e.RowHandle)) return;
             lblStatus.Text = "* Edit Unit";
             lblStatus.ForeColor = Color.Red;
 
