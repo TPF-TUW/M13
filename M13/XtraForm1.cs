@@ -83,8 +83,6 @@ namespace M13
                     sbSQL.Append("SELECT TOP(1) UnitName FROM Unit WHERE (UnitName = N'" + txeUnit.Text.Trim().Replace("'", "''") + "') ");
                     if (new DBQuery(sbSQL).getString() != "")
                     {
-                        FUNC.msgWarning("Duplicate unit. !! Please Change.");
-                        txeUnit.Text = "";
                         chkDup = false;
                     }
                 }
@@ -97,8 +95,6 @@ namespace M13
                     string strCHK = new DBQuery(sbSQL).getString();
                     if (strCHK != "" && strCHK != txeID.Text.Trim())
                     {
-                        FUNC.msgWarning("Duplicate unit. !! Please Change.");
-                        txeUnit.Text = "";
                         chkDup = false;
                     }
                 }
@@ -108,12 +104,7 @@ namespace M13
 
         private void txeUnit_LostFocus(object sender, EventArgs e)
         {
-            bool chkDup = chkDuplicate();
-            if (chkDup == false)
-            {
-                txeUnit.Text = "";
-                txeUnit.Focus();
-            }
+            
         }
 
         private void txeUnit_KeyDown(object sender, KeyEventArgs e)
@@ -222,6 +213,20 @@ namespace M13
         private void bbiPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             gcUnit.Print();
+        }
+
+        private void txeUnit_Leave(object sender, EventArgs e)
+        {
+            if (txeUnit.Text.Trim() != "")
+            {
+                bool chkDup = chkDuplicate();
+                if (chkDup == false)
+                {
+                    txeUnit.Text = "";
+                    txeUnit.Focus();
+                    FUNC.msgWarning("Duplicate unit. !! Please Change.");
+                }
+            }
         }
     }
 }
